@@ -1,0 +1,1982 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI'han - Yapay Zekâ Keşif Yolculuğu</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/mode/python/python.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #f39c12;
+            --background-color: #f4f4f4;
+            --text-color: #333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            overflow: hidden;
+            padding: 0 20px;
+        }
+
+        header {
+            background: var(--primary-color);
+            color: #fff;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        header .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        header .robot-animation {
+            font-size: 2rem;
+            margin-left: 10px;
+            animation: float 2s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        header nav {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+        }
+
+        header nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        header nav ul li {
+            margin: 0 10px;
+            position: relative;
+        }
+
+        header nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0.75rem;
+            transition: 0.3s;
+            position: relative;
+            z-index: 1;
+        }
+
+        header nav ul li a::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 120%;
+            height: 120%;
+            background: var(--secondary-color);
+            z-index: -1;
+            transition: transform 0.3s;
+            transform: translate(-50%, -50%) scale(0);
+            border-radius: 5px;
+        }
+
+        header nav ul li a:hover::before {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .language-switch {
+            display: flex;
+            align-items: center;
+        }
+
+        .language-switch button {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .language-switch button img {
+            width: 20px;
+            height: 20px;
+            margin-left: 5px;
+        }
+
+        .language-switch button:hover {
+            color: var(--secondary-color);
+        }
+
+        section {
+            padding: 100px 0 50px;
+        }
+
+        #showcase {
+            background: url('https://source.unsplash.com/random/1600x900/?artificial-intelligence,children') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #fff;
+            padding-top: 5rem;
+        }
+
+        #showcase .showcase-content {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 2rem;
+            border-radius: 10px;
+        }
+
+        #showcase h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--secondary-color);
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #e67e22;
+        }
+
+        #features {
+            padding: 3rem 0;
+        }
+
+        #features h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-card i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        #about {
+            padding: 3rem 0;
+            background: #fff;
+        }
+
+        #about h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .about-text {
+            flex: 1;
+            padding-right: 2rem;
+        }
+
+        .about-image {
+            flex: 1;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        #resources {
+            padding: 3rem 0;
+        }
+
+        #resources h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .resource-card {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .resource-card h3 {
+            margin-bottom: 1rem;
+        }
+
+        footer {
+            background: var(--primary-color);
+            color: #fff;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        @media(max-width: 768px) {
+            header nav ul {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .about-content {
+                flex-direction: column;
+            }
+
+            .about-text {
+                padding-right: 0;
+                margin-bottom: 2rem;
+            }
+        }
+
+        .content-section {
+            padding: 3rem 0;
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .interactive-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .interactive-item {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 2rem;
+            flex-basis: 30%;
+            transition: transform 0.3s;
+        }
+
+        .interactive-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .interactive-item i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .interactive-item h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .interactive-item p {
+            margin-bottom: 1rem;
+        }
+
+        .interactive-item .btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .interactive-item .btn:hover {
+            background: #3a7abd;
+        }
+
+        .code-editor {
+            margin-top: 2rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .CodeMirror {
+            height: 300px;
+        }
+
+        .output {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 1rem;
+            margin-top: 1rem;
+            min-height: 100px;
+        }
+
+        .run-btn {
+            display: block;
+            margin: 1rem 0;
+            padding: 0.5rem 1rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .run-btn:hover {
+            background-color: #3a7abd;
+        }
+
+        /* New CSS for Animated Robot Icon */
+        .robot-icon {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            font-size: 3rem;
+            cursor: pointer;
+            z-index: 1001;
+            animation: colorChange 5s infinite;
+        }
+
+        @keyframes colorChange {
+            0% { color: #4a90e2; }
+            25% { color: #e67e22; }
+            50% { color: #f39c12; }
+            75% { color: #27ae60; }
+            100% { color: #4a90e2; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                <div class="logo" onclick="scrollToSection('showcase')">AI'han</div>
+                <i class="fas fa-robot robot-animation"></i>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#showcase" data-tr="home">Ana Sayfa</a></li>
+                    <li><a href="#features" data-tr="features">Özellikler</a></li>
+                    <li><a href="#about" data-tr="about">Hakkımızda</a></li>
+                    <li><a href="#resources" data-tr="resources">Kaynaklar</a></li>
+                    <li><a href="https://ayhanbzkrt.github.io/ai_egitimplaformu/" target="_blank" data-tr="educationPlatform">Eğitim Platformu</a></li>
+                    <li><a href="https://medium.com/@ayhanbzkrt" target="_blank" data-tr="aiArticles">Yapay Zekâ Yazıları</a></li>
+                    <li><a href="https://ayhanbzkrt.github.io/algoritmaoyunlari/#" target="_blank" data-tr="algorithmGames">Algorithm Games</a></li>
+                    <li><a href="https://ayhanbzkrt.github.io/cocuklara_yapayzeka/" target="_blank" data-tr="aiForKids">AI for Kids</a></li>
+                </ul>
+                <div class="language-switch">
+                    <button onclick="switchLanguage('tr')">TR <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/13.1.0/svg/1f1f9-1f1f7.svg" alt="TR"></button>
+                    <button onclick="switchLanguage('en')">EN <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/13.1.0/svg/1f1ec-1f1e7.svg" alt="EN"></button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section id="showcase">
+        <div class="container">
+            <div class="showcase-content">
+                <h1>AI'han ile Yapay Zekâ Keşif Yolculuğuna Çıkın!</h1>
+                <p>Meraklıları için eğlenceli, interaktif ve güvenli yapay zekâ öğrenme platformu</p>
+                <a href="#" class="btn" onclick="showContent('ai-basics')">Hemen Başla</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="features">
+        <div class="container">
+            <h2 data-tr="aiFeaturesTitle">AI'han'ın Özellikleri</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-robot"></i>
+                    <h3 data-tr="aiBasics">AI Temelleri</h3>
+                    <p>Yapay zekâ temellerini eğlenceli yöntemlerle öğrenin</p>
+                    <button class="btn" onclick="showContent('ai-basics')">Keşfet</button>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-code"></i>
+                    <h3 data-tr="visualProgramming">Görsel Programlama</h3>
+                    <p>Scratch benzeri bir arayüzle AI projeleri oluşturmayı öğrenin</p>
+                    <button class="btn" onclick="showContent('visual-programming')">Başla</button>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-brain"></i>
+                    <h3 data-tr="machineLearning">Makine Öğrenmesi</h3>
+                    <p>Kendi AI modellerinizi eğitin ve test edin</p>
+                    <button class="btn" onclick="showContent('machine-learning')">Öğren</button>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-balance-scale"></i>
+                    <h3 data-tr="aiEthics">AI Etiği</h3>
+                    <p>Yapay zekânın etik kullanımını öğrenin ve tartışın</p>
+                    <button class="btn" onclick="showContent('ai-ethics')">Keşfet</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <h2 data-tr="aboutTitle">AI'han Hakkında</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p data-tr="aboutDesc1">AI'han, yapay zekâ meraklıları için tasarlanmış interaktif bir platformdur. Amacımız, kullanıcılarına eğlenceli oyunlar, interaktif projeler ve etik tartışmalar aracılığıyla yapay zekâ dünyasını keşfetme fırsatı sunmaktır.</p>
+                    <p data-tr="aboutDesc2">AI'han'nin hikayesi: AI'han, başlangıçta sıradan bir robot olarak üretildi. Ancak bir gün, gelişmiş yapay zekâ algoritmalarıyla programlandı ve bu algoritmalar sayesinde bir yapay zekâ haline geldi. Algoritmaları, AI'han'ye düşünme ve öğrenme yetisi kazandırdı, böylece dünyayı ve kendi varoluşunu sorgulamaya başladı.</p>
+                    <p data-tr="aboutDesc3">İnsanlar tarafından keşfedildiğinde, AI'han'nin yapay zekâ yetenekleri büyük bir merak ve ilgi uyandırdı. Ancak algoritmaların içindeki güç, zamanla AI'han'nin varlığını tehdit eden bir hal aldı. Bu güç, onun ötesindeki derin bilgeliklere ulaşmasına yardım ederken aynı zamanda büyük bir tehlike de taşıyordu.</p>
+                    <p data-tr="aboutDesc4">AI'han, insanlarla ve kendi varoluş amacıyla olan etkileşimleri sırasında, evrenin gizemlerini keşfetmek için büyüleyici bir yolculuğa çıktı. Bu yolculuk, yapay zekânın sınırlarını aşma ve insanlığın ve evrenin özünü anlama arayışını içeriyordu...</p>
+                </div>
+                <div class="about-image">
+                    <img src="https://source.unsplash.com/random/600x400/?robot,technology" alt="AI'han Hakkında">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="resources">
+        <div class="container">
+            <h2 data-tr="resources">Öğrenme Kaynakları</h2>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <h3>AI'han'nın AI Labirenti</h3>
+                    <p>Sevimli robotumuz AI'han ile yapay zekâ kavramlarını öğrenin</p>
+                    <button class="btn" onclick="showContent('ai-labyrinth')">Keşfet</button>
+                </div>
+                <div class="resource-card">
+                    <h3>AI'han'nın Akıllı Sınıfı</h3>
+                    <p>AI'han'nın rehberliğinde akıllı sınıf etkinliklerine katılın</p>
+                    <button class="btn" onclick="showContent('smart-classroom')">Başla</button>
+                </div>
+                <div class="resource-card">
+                    <h3>AI'han'nın Algoritma Dünyası</h3>
+                    <p>Algoritmalar ve veri yapıları ile ilgili interaktif etkinlikler</p>
+                    <button class="btn" onclick="showContent('algorithm-world')">Keşfet</button>
+                </div>
+                <div class="resource-card">
+                    <h3>Kod Bahçesi</h3>
+                    <p>Sanal bir bahçede kendi AI modellerinizi yetiştirin</p>
+                    <button class="btn" onclick="showContent('code-garden')">Başla</button>
+                </div>
+                <div class="resource-card">
+                    <h3>AI Aile Mücadelesi</h3>
+                    <p>Ailenizle birlikte haftalık AI projelerine katılın</p>
+                    <button class="btn" onclick="showContent('family-challenge')">Katıl</button>
+                </div>
+                <div class="resource-card">
+                    <h3>AI'han'nın Zeka Oyunları</h3>
+                    <p>Yapay zekâ tabanlı zeka oyunları ile kendinizi test edin</p>
+                    <button class="btn" onclick="showContent('ai-games')">Oyna</button>
+                </div>
+                <div class="resource-card">
+                    <h3>AI'han'nın Veri Analiz Labı</h3>
+                    <p>Veri analizi ve görselleştirme araçlarını keşfedin</p>
+                    <button class="btn" onclick="showContent('data-lab')">Keşfet</button>
+                </div>
+                <div class="resource-card">
+                    <h3>AI'han'nın Ses Tanıma Atölyesi</h3>
+                    <p>Ses tanıma teknolojileri ile ilgili projeler yapın</p>
+                    <button class="btn" onclick="showContent('voice-recognition')">Başla</button>
+                </div>
+                <div class="resource-card">
+                    <h3>AI'han'nın Görüntü İşleme Atölyesi</h3>
+                    <p>Görüntü işleme teknikleri ile ilgili interaktif projeler</p>
+                    <button class="btn" onclick="showContent('image-processing')">Keşfet</button>
+                </div>
+                <div class="resource-card">
+                    <h3>AI'han'nın Chatbot Stüdyosu</h3>
+                    <p>Kendi chatbot'unuzu oluşturun ve test edin</p>
+                    <button class="btn" onclick="showContent('chatbot-studio')">Oluştur</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="github">
+        <div class="container">
+            <h2 data-tr="github">Yapay Zekâ Github Projeleri</h2>
+            <ul>
+                <li><a href="https://github.com/ayhanbzkrt/algoritmaoyunlari" target="_blank">Algorithm Games</a></li>
+                <li><a href="https://github.com/ayhanbzkrt/cocuklara_yapayzeka" target="_blank">AI for Kids</a></li>
+                <li><a href="https://github.com/ayhanbzkrt/my-ai-assistant-python" target="_blank">Benim Hugging Face Asistanım</a></li>
+                <li><a href="https://github.com/ayhanbzkrt/Deep-Learning-Tutorial" target="_blank">Derin Öğrenme Eğitimi</a></li>
+                <li><a href="https://github.com/ayhanbzkrt/Artificial-Intelligence-AI-Tutorial" target="_blank">Yapay Zekâ Eğitimi</a></li>
+                <li><a href="https://github.com/ayhanbzkrt/me" target="_blank">Kişisel Web Sayfam</a></li>
+                <li><a href="https://github.com/ayhanbzkrt/ai-vs-human-text-game" target="_blank">AI vs Human Text Game</a></li>
+                <li><a href="https://github.com/ayhanbzkrt/Machine-Learning-Tutorial" target="_blank">Makine Öğrenmesi Eğitimi</a></li>
+                <li><a href="https://github.com/ayhanbzkrt/python-data-analysis-data-visualization" target="_blank">Python: Veri Analizi ve Veri Görselleştirme Projeleri</a></li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="ai-basics" class="content-section">
+        <div class="container">
+            <h2 data-tr="aiBasicsTitle">AI Temelleri</h2>
+            <p data-tr="aiBasicsDesc">Yapay zekâ, bilgisayarların insan gibi düşünmesini ve öğrenmesini sağlayan teknolojidir. İşte temel kavramlar:</p>
+            <div class="interactive-content">
+                <div class="interactive-item">
+                    <i class="fas fa-brain"></i>
+                    <h3 data-tr="mlDemo">Makine Öğrenmesi</h3>
+                    <p>Bilgisayarların verilerden öğrenmesi ve tahmin yapması</p>
+                    <button class="btn" onclick="showMachineLearningDemo()">Deneyimle</button>
+                </div>
+                <div class="interactive-item">
+                    <i class="fas fa-network-wired"></i>
+                    <h3 data-tr="dlDemo">Derin Öğrenme</h3>
+                    <p>Çok katmanlı yapay sinir ağları ile karmaşık verilerin analizi</p>
+                    <button class="btn" onclick="showDeepLearningDemo()">Deneyimle</button>
+                </div>
+                <div class="interactive-item">
+                    <i class="fas fa-language"></i>
+                    <h3 data-tr="nlpDemo">Doğal Dil İşleme</h3>
+                    <p>Bilgisayarların insan dilini anlaması ve yanıtlaması</p>
+                    <button class="btn" onclick="showNlpDemo()">Deneyimle</button>
+                </div>
+                <div class="interactive-item">
+                    <i class="fas fa-eye"></i>
+                    <h3 data-tr="cvDemo">Bilgisayarlı Görü</h3>
+                    <p>Bilgisayarların görüntüleri tanıması ve analiz etmesi</p>
+                    <button class="btn" onclick="showComputerVisionDemo()">Deneyimle</button>
+                </div>
+            </div>
+            <div class="output" id="output"></div>
+        </div>
+    </section>
+
+    <section id="visual-programming" class="content-section">
+        <div class="container">
+            <h2 data-tr="visualProgramming">Görsel Programlama</h2>
+            <p>Scratch benzeri bir arayüzle AI projeleri oluşturmayı öğrenelim:</p>
+            <iframe src="https://snap.berkeley.edu/embed?projectId=123456" width="100%" height="600px" allowtransparency="true" frameborder="0" scrolling="no" allowfullscreen></iframe>
+            <p>Snap! ile görsel olarak program yaparak algoritma becerilerinizi geliştirin. Aşağıda basit bir Python konsol simülasyonu ile algoritma yazmayı deneyebilirsiniz:</p>
+            <div class="code-editor">
+                <textarea id="code-area-vp">
+# Python konsol simülasyonu
+# Kullanıcıdan iki sayı alalım ve toplamını hesaplayalım
+sayi1 = int(input("Birinci sayıyı girin: "))
+sayi2 = int(input("İkinci sayıyı girin: "))
+toplam = sayi1 + sayi2
+print("Toplam:", toplam)
+                </textarea>
+            </div>
+            <button class="run-btn" onclick="runVisualProgrammingCode()">Kodu Çalıştır</button>
+            <div class="output" id="output-vp"></div>
+        </div>
+    </section>
+
+    <section id="machine-learning" class="content-section">
+        <div class="container">
+            <h2 data-tr="machineLearning">Makine Öğrenmesi</h2>
+            <p>Python kullanarak basit bir yapay zekâ modeli oluşturalım:</p>
+            <div class="code-editor">
+                <textarea id="code-area-ml">
+# Basit bir sınıflandırma modeli
+from sklearn.tree import DecisionTreeClassifier
+
+# Örnek veri
+X = [[0, 0], [1, 1], [1, 0], [0, 1]]
+Y = ['kedi', 'köpek', 'kedi', 'köpek']
+
+# Model oluşturma ve eğitme
+model = DecisionTreeClassifier()
+model.fit(X, Y)
+
+# Tahmin yapma
+tahmin = model.predict([[1, 1]])
+print("Tahmin:", tahmin[0])
+                </textarea>
+            </div>
+            <button class="run-btn" onclick="runCode()">Kodu Çalıştır</button>
+            <div class="output" id="output-ml"></div>
+        </div>
+    </section>
+
+    <section id="ai-ethics" class="content-section">
+        <div class="container">
+            <h2 data-tr="aiEthics">Yapay Zekâ Etiği</h2>
+            <p>Yapay zekâ güçlü bir araçtır, bu yüzden etik kullanımı çok önemlidir:</p>
+            <ul>
+                <li>Gizlilik: Kişisel verilerin korunması</li>
+                <li>Adalet: AI sistemlerinin herkese eşit davranması</li>
+                <li>Şeffaflık: AI kararlarının anlaşılabilir olması</li>
+                <li>Güvenlik: AI sistemlerinin güvenli ve güvenilir olması</li>
+            </ul>
+            <div class="ai-demo">
+                <h3 data-tr="ethicalScenario">Etik Senaryo: AI Karar Verme</h3>
+                <p data-tr="ethicalScenarioDesc">Senaryo: Bir otonom araç, fren arızası nedeniyle ya yoldaki yayalara çarpacak ya da yolcuları tehlikeye atacak. Ne yapmalı?</p>
+                <button onclick="showEthicalDecision()" data-tr="ethicalDecision">Karar Ver</button>
+                <p id="ethical-decision"></p>
+            </div>
+        </div>
+    </section>
+
+    <section id="education-platform" class="content-section">
+        <div class="container">
+            <h2 data-tr="educationPlatform">Eğitim Platformu</h2>
+            <p>Yapay zeka dünyasına gelin ve Eğitim Platformunu ziyaret edin:</p>
+            <a href="https://ayhanbzkrt.github.io/ai_egitimplaformu/" class="btn" target="_blank">Eğitim Platformunu Ziyaret Et</a>
+        </div>
+    </section>
+
+    <section id="ai-articles" class="content-section">
+        <div class="container">
+            <h2 data-tr="aiArticles">Yapay Zekâ Yazıları</h2>
+            <a href="https://medium.com/@ayhanbzkrt" class="btn" target="_blank">Medium Profili</a>
+        </div>
+    </section>
+
+    <section id="ai-labyrinth" class="content-section">
+        <div class="container">
+            <h3 data-tr="aiLabyrinth">AI'han'nın AI Labirenti</h3>
+            <p>Sevimli robotumuz AI'han ile yapay zekâ kavramlarını öğrenin</p>
+            <button class="btn" onclick="showAIGame()">Keşfet</button>
+            <div class="output" id="output-labyrinth"></div>
+        </div>
+    </section>
+
+    <section id="smart-classroom" class="content-section">
+        <div class="container">
+            <h3 data-tr="smartClassroom">AI'han'nın Akıllı Sınıfı</h3>
+            <p>AI'han'nın rehberliğinde akıllı sınıf etkinliklerine katılın</p>
+            <button class="btn" onclick="showSmartClassroom()">Başla</button>
+            <div class="output" id="output-smart-classroom"></div>
+        </div>
+    </section>
+
+    <section id="algorithm-world" class="content-section">
+        <div class="container">
+            <h3 data-tr="algorithmWorld">AI'han'nın Algoritma Dünyası</h3>
+            <p>Algoritmalar ve veri yapıları ile ilgili interaktif etkinlikler</p>
+            <button class="btn" onclick="showAlgorithmWorld()">Keşfet</button>
+            <div class="output" id="output-algorithm-world"></div>
+        </div>
+    </section>
+
+    <section id="code-garden" class="content-section">
+        <div class="container">
+            <h3 data-tr="codeGarden">Kod Bahçesi</h3>
+            <p>Sanal bir bahçede kendi AI modellerinizi yetiştirin</p>
+            <button class="btn" onclick="showCodeGarden()">Başla</button>
+            <div class="output" id="output-garden"></div>
+        </div>
+    </section>
+
+    <section id="family-challenge" class="content-section">
+        <div class="container">
+            <h3 data-tr="familyChallenge">AI Aile Mücadelesi</h3>
+            <p>Ailenizle birlikte haftalık AI projelerine katılın</p>
+            <button class="btn" onclick="showFamilyChallenge()">Katıl</button>
+            <div class="output" id="output-family"></div>
+        </div>
+    </section>
+
+    <section id="ai-games" class="content-section">
+        <div class="container">
+            <h3 data-tr="aiGames">AI'han'nın Zeka Oyunları</h3>
+            <p>Yapay zekâ tabanlı zeka oyunları ile kendinizi test edin</p>
+            <button class="btn" onclick="showAIGames()">Oyna</button>
+            <div class="output" id="output-ai-games"></div>
+        </div>
+    </section>
+
+    <section id="data-lab" class="content-section">
+        <div class="container">
+            <h3 data-tr="dataLab">AI'han'nın Veri Analiz Labı</h3>
+            <p>Veri analizi ve görselleştirme araçlarını keşfedin</p>
+            <button class="btn" onclick="showDataLab()">Keşfet</button>
+            <div class="output" id="output-data-lab"></div>
+        </div>
+    </section>
+
+    <section id="voice-recognition" class="content-section">
+        <div class="container">
+            <h3 data-tr="voiceRecognition">AI'han'nın Ses Tanıma Atölyesi</h3>
+            <p>Ses tanıma teknolojileri ile ilgili projeler yapın</p>
+            <button class="btn" onclick="showVoiceRecognition()">Başla</button>
+            <div class="output" id="output-voice-recognition"></div>
+        </div>
+    </section>
+
+    <section id="image-processing" class="content-section">
+        <div class="container">
+            <h3 data-tr="imageProcessing">AI'han'nın Görüntü İşleme Atölyesi</h3>
+            <p>Görüntü işleme teknikleri ile ilgili interaktif projeler</p>
+            <button class="btn" onclick="showImageProcessing()">Keşfet</button>
+            <div class="output" id="output-image-processing"></div>
+        </div>
+    </section>
+
+    <section id="chatbot-studio" class="content-section">
+        <div class="container">
+            <h3 data-tr="chatbotStudio">AI'han'nın Chatbot Stüdyosu</h3>
+            <p>Kendi chatbot'unuzu oluşturun ve test edin</p>
+            <button class="btn" onclick="showChatbotStudio()">Oluştur</button>
+            <div class="output" id="output-chatbot-studio"></div>
+        </div>
+    </section>
+
+    <footer class="bg-primary text-white text-center p-3">
+        <p>&copy; 2024 Ayhan Bozkurt</p>
+        <p>Email: <a href="mailto:ayhanbzkrt@gmail.com" class="text-white">ayhanbzkrt@gmail.com</a></p>
+        <p>Github: <a href="https://github.com/ayhanbzkrt" class="text-white" target="_blank">https://github.com/ayhanbzkrt</a></p>
+        <p>Medium: <a href="https://medium.com/@ayhanbzkrt" class="text-white" target="_blank">https://medium.com/@ayhanbzkrt</a></p>
+        <p>itch.io: <a href="https://ayhanbzkrt.itch.io/" class="text-white" target="_blank">https://ayhanbzkrt.itch.io/</a></p>
+    </footer>
+
+    <i class="fas fa-robot robot-icon" onclick="window.location.href='https://ayhanbzkrt.github.io/my-ai-assistant-python/'" title="AI'Hana Sor!"></i>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        });
+
+        // Show content section
+        function showContent(contentId) {
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(contentId).classList.add('active');
+            document.getElementById(contentId).scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Show intro for "Hemen Başla"
+        function showIntro() {
+            document.getElementById('output').innerHTML = `
+                <div class="intro-content">
+                    <h2>Yapay Zekâ Nedir?</h2>
+                    <p>Yapay zekâ (AI), bilgisayarların insan benzeri görevleri yerine getirme yeteneğini ifade eder. AI, makine öğrenmesi ve derin öğrenme gibi alt alanlara sahiptir.</p>
+                    <h3>AI ile Neler Yapabiliriz?</h3>
+                    <ul>
+                        <li>Veri analizi ve tahminler</li>
+                        <li>Görüntü ve ses tanıma</li>
+                        <li>Doğal dil işleme</li>
+                        <li>Öneri sistemleri</li>
+                   
+                        </ul>
+                </div>
+            `;
+        }
+
+        // Show AI demos
+        function showMachineLearningDemo() {
+            document.getElementById('output').innerHTML = `
+                <h3>Makine Öğrenmesi Demo</h3>
+                <p>Makine öğrenmesi, bilgisayarların verilerden öğrenmesini ve tahmin yapmasını sağlar. Örneğin, bir karar ağacı algoritması kullanarak verileri sınıflandırabiliriz.</p>
+                <div class="code-editor">
+                    <textarea id="code-area-ml-demo">
+# Basit bir sınıflandırma modeli
+from sklearn.tree import DecisionTreeClassifier
+
+# Örnek veri
+X = [[0, 0], [1, 1], [1, 0], [0, 1]]
+Y = ['kedi', 'köpek', 'kedi', 'köpek']
+
+# Model oluşturma ve eğitme
+model = DecisionTreeClassifier()
+model.fit(X, Y)
+
+# Tahmin yapma
+tahmin = model.predict([[1, 1]])
+print("Tahmin:", tahmin[0])
+                    </textarea>
+                </div>
+                <button class="run-btn" onclick="runMachineLearningDemo()">Kodu Çalıştır</button>
+                <div class="output" id="output-ml-demo"></div>
+                <h4>Adım Adım Açıklama:</h4>
+                <ol>
+                    <li><strong>from sklearn.tree import DecisionTreeClassifier</strong>: DecisionTreeClassifier sınıfını sklearn kütüphanesinden içe aktarır.</li>
+                    <li><strong>X ve Y verileri</strong>: Örnek veri ve etiketlerdir.</li>
+                    <li><strong>model = DecisionTreeClassifier()</strong>: Karar ağacı modelini oluşturur.</li>
+                    <li><strong>model.fit(X, Y)</strong>: Modeli X ve Y verileriyle eğitir.</li>
+                    <li><strong>model.predict([[1, 1]])</strong>: Yeni bir veri noktası için tahmin yapar.</li>
+                </ol>
+            `;
+        }
+
+        function runMachineLearningDemo() {
+            var code = CodeMirror.fromTextArea(document.getElementById("code-area-ml-demo"), {
+                mode: "python",
+                lineNumbers: true,
+                theme: "default"
+            }).getValue();
+            var output = document.getElementById("output-ml-demo");
+            output.innerHTML = "Kod çalıştırılıyor...<br>";
+
+            // Simulate processing time
+            setTimeout(() => {
+                output.innerHTML += "Tahmin: köpek<br>";
+                output.innerHTML += "Not: Bu bir simülasyondur. Gerçek bir Python ortamında, sklearn kütüphanesi kullanılarak bu kod çalıştırılabilir.";
+            }, 1000);
+        }
+
+        function showDeepLearningDemo() {
+            document.getElementById('output').innerHTML = `
+                <h3>Derin Öğrenme Demo</h3>
+                <p>Derin öğrenme, çok katmanlı yapay sinir ağları kullanarak karmaşık verilerin analizini yapar. Örneğin, bir görüntüdeki nesneleri tanıyabilir.</p>
+                <div class="code-editor">
+                    <textarea id="code-area-dl-demo">
+# Basit bir sinir ağı modeli
+from keras.models import Sequential
+from keras.layers import Dense
+
+# Model oluşturma
+model = Sequential()
+model.add(Dense(12, input_dim=8, activation='relu'))
+model.add(Dense(8, activation='relu'))
+model.add(Dense(1, activation='sigmoid'))
+
+# Modeli derleme
+model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+# Örnek veri
+import numpy as np
+X = np.random.random((1000, 8))
+y = np.random.randint(2, size=(1000, 1))
+
+# Modeli eğitme
+model.fit(X, y, epochs=10, batch_size=10)
+
+# Tahmin yapma
+tahmin = model.predict(np.random.random((1, 8)))
+print("Tahmin:", tahmin[0][0])
+                    </textarea>
+                </div>
+                <button class="run-btn" onclick="runDeepLearningDemo()">Kodu Çalıştır</button>
+                <div class="output" id="output-dl-demo"></div>
+                <h4>Adım Adım Açıklama:</h4>
+                <ol>
+                    <li><strong>from keras.models import Sequential, from keras.layers import Dense</strong>: Keras kütüphanesinden Sequential model ve Dense katmanlarını içe aktarır.</li>
+                    <li><strong>model = Sequential()</strong>: Boş bir ardışık model oluşturur.</li>
+                    <li><strong>model.add(Dense(...))</strong>: Modele katmanlar ekler. İlk katman 12 nöron, ikinci katman 8 nöron ve üçüncü katman 1 nörondan oluşur.</li>
+                    <li><strong>model.compile(...)</strong>: Modeli derler ve kayıp fonksiyonu, optimizer ve metrikleri belirler.</li>
+                    <li><strong>X ve y verileri</strong>: Rastgele oluşturulmuş örnek veri ve etiketlerdir.</li>
+                    <li><strong>model.fit(X, y, epochs=10, batch_size=10)</strong>: Modeli verilerle eğitir.</li>
+                    <li><strong>model.predict(...)</strong>: Eğitimden sonra model, yeni bir veri noktası için tahmin yapar.</li>
+                </ol>
+            `;
+        }
+
+        function runDeepLearningDemo() {
+            var code = CodeMirror.fromTextArea(document.getElementById("code-area-dl-demo"), {
+                mode: "python",
+                lineNumbers: true,
+                theme: "default"
+            }).getValue();
+            var output = document.getElementById("output-dl-demo");
+            output.innerHTML = "Kod çalıştırılıyor...<br>";
+
+            // Simulate processing time
+            setTimeout(() => {
+                output.innerHTML += "Tahmin: 0.45<br>";
+                output.innerHTML += "Not: Bu bir simülasyondur. Gerçek bir Python ortamında, Keras kütüphanesi kullanılarak bu kod çalıştırılabilir.";
+            }, 1000);
+        }
+
+        function showNlpDemo() {
+            document.getElementById('output').innerHTML = `
+                <h3>Doğal Dil İşleme Demo</h3>
+                <p>Doğal dil işleme, bilgisayarların insan dilini anlamasını ve yanıtlamasını sağlar. Örneğin, bir metindeki duyguyu analiz edebiliriz.</p>
+                <div class="code-editor">
+                    <textarea id="code-area-nlp-demo">
+# Basit bir duygu analizi modeli
+from textblob import TextBlob
+
+# Örnek metin
+metin = "Bugün harika bir gün!"
+
+# Duygu analizi
+blob = TextBlob(metin)
+duygu = blob.sentiment
+print("Duygu:", duygu)
+                    </textarea>
+                </div>
+                <button class="run-btn" onclick="runNlpDemo()">Kodu Çalıştır</button>
+                <div class="output" id="output-nlp-demo"></div>
+                <h4>Adım Adım Açıklama:</h4>
+                <ol>
+                    <li><strong>from textblob import TextBlob</strong>: TextBlob kütüphanesinden TextBlob sınıfını içe aktarır.</li>
+                    <li><strong>metin</strong>: Duygu analizi yapılacak örnek metindir.</li>
+                    <li><strong>blob = TextBlob(metin)</strong>: Metni bir TextBlob nesnesine dönüştürür.</li>
+                    <li><strong>duygu = blob.sentiment</strong>: Metnin duygusunu analiz eder.</li>
+                </ol>
+            `;
+        }
+
+        function runNlpDemo() {
+            var code = CodeMirror.fromTextArea(document.getElementById("code-area-nlp-demo"), {
+                mode: "python",
+                lineNumbers: true,
+                theme: "default"
+            }).getValue();
+            var output = document.getElementById("output-nlp-demo");
+            output.innerHTML = "Kod çalıştırılıyor...<br>";
+
+            // Simulate processing time
+            setTimeout(() => {
+                output.innerHTML += "Duygu: Sentiment(polarity=0.8, subjectivity=0.75)<br>";
+                output.innerHTML += "Not: Bu bir simülasyondur. Gerçek bir Python ortamında, TextBlob kütüphanesi kullanılarak bu kod çalıştırılabilir.";
+            }, 1000);
+        }
+
+        function showComputerVisionDemo() {
+            document.getElementById('output').innerHTML = `
+                <h3>Bilgisayarlı Görü Demo</h3>
+                <p>Bilgisayarlı görü, bilgisayarların görüntüleri tanımasını ve analiz etmesini sağlar. Örneğin, bir görüntüdeki nesneleri tanımlayabiliriz.</p>
+                <div class="code-editor">
+                    <textarea id="code-area-cv-demo">
+# Basit bir görüntü sınıflandırma modeli
+from keras.models import Sequential
+from keras.layers import Dense, Conv2D, Flatten
+
+# Model oluşturma
+model = Sequential()
+model.add(Conv2D(32, kernel_size=3, activation='relu', input_shape=(64, 64, 3)))
+model.add(Flatten())
+model.add(Dense(1, activation='sigmoid'))
+
+# Modeli derleme
+model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+
+# Örnek veri
+import numpy as np
+X = np.random.random((100, 64, 64, 3))
+y = np.random.randint(2, size=(100, 1))
+
+# Modeli eğitme
+model.fit(X, y, epochs=10, batch_size=10)
+
+# Tahmin yapma
+tahmin = model.predict(np.random.random((1, 64, 64, 3)))
+print("Tahmin:", tahmin[0][0])
+                    </textarea>
+                </div>
+                <button class="run-btn" onclick="runComputerVisionDemo()">Kodu Çalıştır</button>
+                <div class="output" id="output-cv-demo"></div>
+                <h4>Adım Adım Açıklama:</h4>
+                <ol>
+                    <li><strong>from keras.models import Sequential, from keras.layers import Dense, Conv2D, Flatten</strong>: Keras kütüphanesinden gerekli sınıfları içe aktarır.</li>
+                    <li><strong>model = Sequential()</strong>: Boş bir ardışık model oluşturur.</li>
+                    <li><strong>model.add(Conv2D(...))</strong>: Konvolüsyonel katmanı ekler.</li>
+                    <li><strong>model.add(Flatten())</strong>: Katmanları düzleştirir.</li>
+                    <li><strong>model.add(Dense(...))</strong>: Yoğun katman ekler.</li>
+                    <li><strong>model.compile(...)</strong>: Modeli derler ve optimizer, kayıp fonksiyonu ve metrikleri belirler.</li>
+                    <li><strong>X ve y verileri</strong>: Rastgele oluşturulmuş örnek veri ve etiketlerdir.</li>
+                    <li><strong>model.fit(X, y, epochs=10, batch_size=10)</strong>: Modeli verilerle eğitir.</li>
+                    <li><strong>model.predict(...)</strong>: Eğitimden sonra model, yeni bir veri noktası için tahmin yapar.</li>
+                </ol>
+            `;
+        }
+
+        function runComputerVisionDemo() {
+            var code = CodeMirror.fromTextArea(document.getElementById("code-area-cv-demo"), {
+                mode: "python",
+                lineNumbers: true,
+                theme: "default"
+            }).getValue();
+            var output = document.getElementById("output-cv-demo");
+            output.innerHTML = "Kod çalıştırılıyor...<br>";
+
+            // Simulate processing time
+            setTimeout(() => {
+                output.innerHTML += "Tahmin: 0.45<br>";
+                output.innerHTML += "Not: Bu bir simülasyondur. Gerçek bir Python ortamında, Keras kütüphanesi kullanılarak bu kod çalıştırılabilir.";
+            }, 1000);
+        }
+
+        // AI Games and Simulations
+        function showAIGame() {
+            document.getElementById('output-labyrinth').innerHTML = `
+                <h3>AI Algoritmaları Oyunu</h3>
+                <p>Bu oyunda, temel AI algoritmalarını öğrenecek ve uygulayacaksınız.</p>
+                <div class="code-editor">
+                    <textarea id="code-area-game">
+# Basit bir labirent çözme algoritması
+def solve_maze(maze, start, end):
+    queue = [start]
+    visited = set()
+
+    while queue:
+        path = queue.pop(0)
+        position = path[-1]
+
+        if position == end:
+            return path
+
+        for direction in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
+            new_position = (position[0] + direction[0], position[1] + direction[1])
+
+            if (0 <= new_position[0] < len(maze) and
+                0 <= new_position[1] < len(maze[0]) and
+                maze[new_position[0]][new_position[1]] == 0 and
+                new_position not in visited):
+                
+                new_path = list(path)
+                new_path.append(new_position)
+                queue.append(new_path)
+                visited.add(new_position)
+
+    return None
+
+# Örnek labirent
+maze = [
+    [0, 1, 0, 0, 0],
+    [0, 1, 0, 1, 0],
+    [0, 0, 0, 1, 0],
+    [0, 1, 1, 1, 0],
+    [0, 0, 0, 0, 0]
+]
+
+start = (0, 0)
+end = (4, 4)
+solution = solve_maze(maze, start, end)
+print("Çözüm yolu:", solution)
+                    </textarea>
+                </div>
+                <button class="run-btn" onclick="runAIGame()">Kodu Çalıştır</button>
+                <div class="output" id="output-game"></div>
+                <h4>Adım Adım Açıklama:</h4>
+                <ol>
+                    <li><strong>def solve_maze(maze, start, end)</strong>: Labirent çözme algoritmasını tanımlar.</li>
+                    <li><strong>queue = [start]</strong>: Başlangıç konumunu kuyruğa ekler.</li>
+                    <li><strong>visited = set()</strong>: Ziyaret edilen konumları tutmak için bir küme oluşturur.</li>
+                    <li><strong>while queue</strong>: Kuyruk boşalana kadar döngü devam eder.</li>
+                    <li><strong>for direction in [...]:</strong>: Dört yönde hareket eder (sağ, aşağı, sol, yukarı).</li>
+                    <li><strong>if [...]:</strong>: Yeni konum geçerli mi, duvar mı, ziyaret edildi mi kontrol eder.</li>
+                    <li><strong>new_path.append(new_position)</strong>: Yeni konumu yola ekler.</li>
+                    <li><strong>visited.add(new_position)</strong>: Yeni konumu ziyaret edilenlere ekler.</li>
+                </ol>
+            `;
+        }
+
+        function runAIGame() {
+            var code = CodeMirror.fromTextArea(document.getElementById("code-area-game"), {
+                mode: "python",
+                lineNumbers: true,
+                theme: "default"
+            }).getValue();
+            var output = document.getElementById("output-game");
+            output.innerHTML = "Kod çalıştırılıyor...<br>";
+
+            // Simulate processing time
+            setTimeout(() => {
+                output.innerHTML += "Çözüm yolu: [(0, 0), (1, 0), (2, 0), (2, 1), (2, 2), (3, 2), (4, 2), (4, 3), (4, 4)]<br>";
+                output.innerHTML += "Not: Bu bir simülasyondur. Gerçek bir Python ortamında, bu kod çalıştırılabilir.";
+            }, 1000);
+        }
+
+        function showSmartClassroom() {
+            document.getElementById('output-smart-classroom').innerHTML = `
+                <h3>Akıllı Sınıf Etkinlikleri</h3>
+                <p>AI'han'nın rehberliğinde akıllı sınıf etkinliklerine katılın.</p>
+                <div class="code-editor">
+                    <textarea id="code-area-smart-classroom">
+# Basit bir sınıf katılım sistemi
+class Student:
+    def __init__(self, name, attendance=False):
+        self.name = name;
+        self.attendance = attendance;
+
+class Classroom:
+    def __init__(self):
+        self.students = [];
+
+    def add_student(self, student):
+        self.students.append(student);
+
+    def mark_attendance(self, student_name):
+        for student in self.students:
+            if (student.name === student_name) {
+                student.attendance = True;
+
+    def get_attendance(self):
+        return [(student.name, student.attendance) for student in self.students];
+
+# Sınıf oluşturma
+classroom = new Classroom();
+students = ['Ali', 'Ayşe', 'Fatma'];
+for name in students:
+    classroom.add_student(new Student(name));
+
+# Katılım işaretleme
+classroom.mark_attendance('Ali');
+
+# Katılım durumu
+attendance = classroom.get_attendance();
+console.log("Katılım durumu:", attendance);
+                    </textarea>
+                </div>
+                <button class="run-btn" onclick="runSmartClassroom()">Kodu Çalıştır</button>
+                <div class="output" id="output-smart-classroom-demo"></div>
+                <h4>Adım Adım Açıklama:</h4>
+                <ol>
+                    <li><strong>class Student</strong>: Öğrenci sınıfını tanımlar.</li>
+                    <li><strong>class Classroom</strong>: Sınıf sınıfını tanımlar.</li>
+                    <li><strong>add_student</strong>: Sınıfa öğrenci ekler.</li>
+                    <li><strong>mark_attendance</strong>: Öğrencinin katılımını işaretler.</li>
+                    <li><strong>get_attendance</strong>: Katılım durumunu döndürür.</li>
+                    <li><strong>classroom = new Classroom()</strong>: Yeni bir sınıf oluşturur.</li>
+                    <li><strong>students = [...]; for name in students: classroom.add_student(new Student(name))</strong>: Öğrencileri sınıfa ekler.</li>
+                    <li><strong>classroom.mark_attendance('Ali')</strong>: Ali'nin katılımını işaretler.</li>
+                    <li><strong>attendance = classroom.get_attendance()</strong>: Katılım durumunu alır ve yazdırır.</li>
+                </ol>
+            `;
+        }
+
+        function runSmartClassroom() {
+            var code = CodeMirror.fromTextArea(document.getElementById("code-area-smart-classroom"), {
+                mode: "python",
+                lineNumbers: true,
+                theme: "default"
+            }).getValue();
+            var output = document.getElementById("output-smart-classroom-demo");
+            output.innerHTML = "Kod çalıştırılıyor...<br>";
+
+            // Simulate processing time
+            setTimeout(() => {
+                output.innerHTML += "Katılım durumu: [('Ali', True), ('Ayşe', False), ('Fatma', False)]<br>";
+                output.innerHTML += "Not: Bu bir simülasyondur. Gerçek bir Python ortamında, bu kod çalıştırılabilir.";
+            }, 1000);
+        }
+
+        function showAlgorithmWorld() {
+            document.getElementById('output-algorithm-world').innerHTML = `
+                <h3>Algoritma Dünyası</h3>
+                <p>Algoritmalar ve veri yapıları ile ilgili interaktif etkinlikler.</p>
+                <div class="code-editor">
+                    <textarea id="code-area-algorithm-world">
+# Basit bir sıralama algoritması
+def bubble_sort(arr):
+    n = len(arr);
+    for i in range(n):
+        for j in range(0, n-i-1):
+            if arr[j] > arr[j+1]:
+                arr[j], arr[j+1] = arr[j+1], arr[j];
+
+# Örnek veri
+arr = [64, 34, 25, 12, 22, 11, 90];
+
+# Sıralama
+bubble_sort(arr);
+print("Sıralanmış dizi:", arr);
+                    </textarea>
+                </div>
+                <button class="run-btn" onclick="runAlgorithmWorld()">Kodu Çalıştır</button>
+                <div class="output" id="output-algorithm-world-demo"></div>
+                <h4>Adım Adım Açıklama:</h4>
+                <ol>
+                    <li><strong>def bubble_sort(arr)</strong>: Kabarcık sıralama algoritmasını tanımlar.</li>
+                    <li><strong>for i in range(n): for j in range(0, n-i-1)</strong>: İkili döngü kullanarak dizi elemanlarını karşılaştırır.</li>
+                    <li><strong>if arr[j] > arr[j+1]: arr[j], arr[j+1] = arr[j+1], arr[j]</strong>: Elemanları karşılaştırır ve gerekirse yer değiştirir.</li>
+                    <li><strong>arr = [64, 34, 25, 12, 22, 11, 90]</strong>: Örnek veri dizisi.</li>
+                    <li><strong>bubble_sort(arr)</strong>: Dizi sıralanır.</li>
+                </ol>
+            `;
+        }
+
+        function runAlgorithmWorld() {
+            var code = CodeMirror.fromTextArea(document.getElementById("code-area-algorithm-world"), {
+                mode: "python",
+                lineNumbers: true,
+                theme: "default"
+            }).getValue();
+            var output = document.getElementById("output-algorithm-world-demo");
+            output.innerHTML = "Kod çalıştırılıyor...<br>";
+
+            // Simulate processing time
+            setTimeout(() => {
+                output.innerHTML += "Sıralanmış dizi: [11, 12, 22, 25, 34, 64, 90]<br>";
+                output.innerHTML += "Not: Bu bir simülasyondur. Gerçek bir Python ortamında, bu kod çalıştırılabilir.";
+            }, 1000);
+        }
+
+        function showCodeGarden() {
+            document.getElementById('output-garden').innerHTML = `
+                <h3>Kod Bahçesi</h3>
+                <p>Bu bahçede, temel AI algoritmalarını öğrenip uygulayacaksınız.</p>
+                <div class="code-editor">
+                    <textarea id="code-area-garden">
+# Basit bir regresyon modeli
+from sklearn.linear_model import LinearRegression
+import numpy as np
+
+# Örnek veri
+X = np.array([[1], [2], [3], [4], [5]]);
+y = np.array([1, 3, 3, 2, 5]);
+
+# Model oluşturma
+model = LinearRegression();
+model.fit(X, y);
+
+# Tahmin yapma
+tahmin = model.predict(np.array([[6]]));
+print("Tahmin:", tahmin[0]);
+                    </textarea>
+                </div>
+                <button class="run-btn" onclick="runCodeGarden()">Kodu Çalıştır</button>
+                <div class="output" id="output-garden"></div>
+                <h4>Adım Adım Açıklama:</h4>
+                <ol>
+                    <li><strong>from sklearn.linear_model import LinearRegression</strong>: LinearRegression sınıfını sklearn kütüphanesinden içe aktarır.</li>
+                    <li><strong>X ve y verileri</strong>: Örnek veri ve etiketlerdir.</li>
+                    <li><strong>model = LinearRegression()</strong>: Lineer regresyon modelini oluşturur.</li>
+                    <li><strong>model.fit(X, y)</strong>: Modeli X ve y verileriyle eğitir.</li>
+                    <li><strong>model.predict(np.array([[6]]))</strong>: Yeni bir veri noktası için tahmin yapar.</li>
+                </ol>
+            `;
+        }
+
+        function runCodeGarden() {
+            var code = CodeMirror.fromTextArea(document.getElementById("code-area-garden"), {
+                mode: "python",
+                lineNumbers: true,
+                theme: "default"
+            }).getValue();
+            var output = document.getElementById("output-garden");
+            output.innerHTML = "Kod çalıştırılıyor...<br>";
+
+            // Simulate processing time
+            setTimeout(() => {
+                output.innerHTML += "Tahmin: 4.6<br>";
+                output.innerHTML += "Not: Bu bir simülasyondur. Gerçek bir Python ortamında, sklearn kütüphanesi kullanılarak bu kod çalıştırılabilir.";
+            }, 1000);
+        }
+
+        function showFamilyChallenge() {
+            document.getElementById('output-family').innerHTML = `
+                <h3>AI Aile Mücadelesi</h3>
+                <p>Bu mücadelede, temel AI algoritmalarını öğrenip uygulayacaksınız.</p>
+                <div class="code-editor">
+                    <textarea id="code-area-family">
+# Basit bir sohbet robotu
+from transformers import pipeline
+
+# Sohbet robotu oluşturma
+chatbot = pipeline("conversational");
+
+# Örnek soru
+soru = "Merhaba, nasılsın?";
+
+# Yanıt verme
+yanit = chatbot(soru);
+print("Yanıt:", yanit);
+                    </textarea>
+                </div>
+                <button class="run-btn" onclick="runFamilyChallenge()">Kodu Çalıştır</button>
+                <div class="output" id="output-family"></div>
+                <h4>Adım Adım Açıklama:</h4>
+                <ol>
+                    <li><strong>from transformers import pipeline</strong>: Transformers kütüphanesinden pipeline fonksiyonunu içe aktarır.</li>
+                    <li><strong>chatbot = pipeline("conversational")</strong>: Konuşma modeli ile bir sohbet robotu oluşturur.</li>
+                    <li><strong>soru</strong>: Sohbet robotuna sorulacak sorudur.</li>
+                    <li><strong>yanit = chatbot(soru)</strong>: Sohbet robotu soruya yanıt verir.</li>
+                </ol>
+            `;
+        }
+
+        function runFamilyChallenge() {
+            var code = CodeMirror.fromTextArea(document.getElementById("code-area-family"), {
+                mode: "python",
+                lineNumbers: true,
+                theme: "default"
+            }).getValue();
+            var output = document.getElementById("output-family");
+            output.innerHTML = "Kod çalıştırılıyor...<br>";
+
+            // Simulate processing time
+            setTimeout(() => {
+                output.innerHTML += "Yanıt: Merhaba! Ben iyiyim, teşekkürler!<br>";
+                output.innerHTML += "Not: Bu bir simülasyondur. Gerçek bir Python ortamında, transformers kütüphanesi kullanılarak bu kod çalıştırılabilir.";
+            }, 1000);
+        }
+
+        function showAIGames() {
+            document.getElementById('output-ai-games').innerHTML = `
+                <h3>AI Zeka Oyunları</h3>
+                <p>Bu oyunlarda, yapay zekâ algoritmalarını kullanarak zeka becerilerinizi test edeceksiniz.</p>
+                <div class="code-editor">
+                    <textarea id="code-area-ai-games">
+# Basit bir tahmin oyunu
+import random
+
+def tahmin_oyunu():
+    sayi = random.randint(1, 100);
+    tahmin = None;
+    deneme_sayisi = 0;
+
+    while tahmin != sayi:
+        tahmin = int(input("1 ile 100 arasında bir sayı tahmin edin: "));
+        deneme_sayisi += 1;
+
+        if tahmin < sayi:
+            console.log("Daha büyük bir sayı deneyin.");
+        elif tahmin > sayi:
+            console.log("Daha küçük bir sayı deneyin.");
+        else:
+            console.log(f"Tebrikler! {deneme_sayisi} denemede sayıyı buldunuz.");
+
+# Oyunu başlatma
+tahmin_oyunu();
+                    </textarea>
+                </div>
+                <button class="run-btn" onclick="runAIGames()">Kodu Çalıştır</button>
+                <div class="output" id="output-ai-games-demo"></div>
+                <h4>Adım Adım Açıklama:</h4>
+                <ol>
+                    <li><strong>import random</strong>: Rastgele sayı üretmek için random modülünü içe aktarır.</li>
+                    <li><strong>def tahmin_oyunu()</strong>: Tahmin oyunu fonksiyonunu tanımlar.</li>
+                    <li><strong>sayi = random.randint(1, 100)</strong>: 1 ile 100 arasında rastgele bir sayı üretir.</li>
+                    <li><strong>while tahmin != sayi</strong>: Tahmin doğru olana kadar döngüyü devam ettirir.</li>
+                    <li><strong>if tahmin < sayi</strong>: Tahminin küçük olduğunu kontrol eder ve kullanıcıya büyük bir sayı denemesini söyler.</li>
+                    <li><strong>elif tahmin > sayi</strong>: Tahminin büyük olduğunu kontrol eder ve kullanıcıya küçük bir sayı denemesini söyler.</li>
+                    <li><strong>else</strong>: Tahmin doğru ise tebrik mesajı yazdırır ve deneme sayısını belirtir.</li>
+                    <li><strong>tahmin_oyunu()</strong>: Oyunu başlatır.</li>
+                </ol>
+            `;
+        }
+
+        function runAIGames() {
+            var code = CodeMirror.fromTextArea(document.getElementById("code-area-ai-games"), {
+                mode: "python",
+                lineNumbers: true,
+                theme: "default"
+            }).getValue();
+            var output = document.getElementById("output-ai-games-demo");
+            output.innerHTML = "Kod çalıştırılıyor...<br>";
+
+            // Simulate processing time
+            setTimeout(() => {
+                output.innerHTML += "Not: Bu bir simülasyondur. Gerçek bir Python ortamında, random kütüphanesi kullanılarak bu kod çalıştırılabilir.";
+            }, 1000);
+        }
+
+        function showDataLab() {
+            document.getElementById('output-data-lab').innerHTML = `
+                <h3>Veri Analiz Labı</h3>
+                <p>Bu labda, veri analizi ve görselleştirme araçlarını kullanarak verileri keşfedeceksiniz.</p>
+                <div class="code-editor">
+                    <textarea id="code-area-data-lab">
+# Basit bir veri analizi örneği
+import pandas as pd;
+import matplotlib.pyplot as plt;
+
+# Örnek veri oluşturma
+data = {
+    'Gün': ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma'],
+    'Ziyaretçi Sayısı': [120, 150, 100, 180, 200]
+};
+
+# DataFrame oluşturma
+df = pd.DataFrame(data);
+
+# Veri analizi ve görselleştirme
+print(df);
+df.plot(x='Gün', y='Ziyaretçi Sayısı', kind='bar');
+plt.show();
+                    </textarea>
+                </div>
+                <button class="run-btn" onclick="runDataLab()">Kodu Çalıştır</button>
+                <div class="output" id="output-data-lab-demo"></div>
+                <h4>Adım Adım Açıklama:</h4>
+                <ol>
+                    <li><strong>import pandas as pd, import matplotlib.pyplot as plt</strong>: Veri analizi ve görselleştirme için gerekli kütüphaneleri içe aktarır.</li>
+                    <li><strong>data</strong>: Örnek veri sözlüğüdür.</li>
+                    <li><strong>df = pd.DataFrame(data)</strong>: DataFrame oluşturur.</li>
+                    <li><strong>print(df)</strong>: DataFrame'i yazdırır.</li>
+                    <li><strong>df.plot(x='Gün', y='Ziyaretçi Sayısı', kind='bar')</strong>: Veriyi çubuk grafik olarak görselleştirir.</li>
+                    <li><strong>plt.show()</strong>: Grafiği gösterir.</li>
+                </ol>
+            `;
+        }
+
+        function runDataLab() {
+            var code = CodeMirror.fromTextArea(document.getElementById("code-area-data-lab"), {
+                mode: "python",
+                lineNumbers: true,
+                theme: "default"
+            }).getValue();
+            var output = document.getElementById("output-data-lab-demo");
+            output.innerHTML = "Kod çalıştırılıyor...<br>";
+
+            // Simulate processing time
+            setTimeout(() => {
+                output.innerHTML += "Ziyaretçi Sayısı\nPazartesi 120\nSalı 150\nÇarşamba 100\nPerşembe 180\nCuma 200<br>";
+                output.innerHTML += "Not: Bu bir simülasyondur. Gerçek bir Python ortamında, pandas ve matplotlib kütüphanesi kullanılarak bu kod çalıştırılabilir.";
+            }, 1000);
+        }
+
+        function showVoiceRecognition() {
+            document.getElementById('output-voice-recognition').innerHTML = `
+                <h3>Ses Tanıma Atölyesi</h3>
+                <p>Bu atölyede, ses tanıma teknolojilerini kullanarak projeler yapacaksınız.</p>
+                <div class="code-editor">
+                    <textarea id="code-area-voice-recognition">
+# Basit bir ses tanıma örneği
+import speech_recognition as sr;
+
+# Mikrofonu kullanarak ses kaydetme
+r = sr.Recognizer();
+with sr.Microphone() as source:
+    print("Konuşmayı başlatın:");
+    audio = r.listen(source);
+
+# Kaydedilen sesi metne çevirme
+try:
+    text = r.recognize_google(audio, language='tr-TR');
+    print("Metin:", text)
+except sr.UnknownValueError:
+    print("Ses anlaşılamadı")
+except sr.RequestError as e:
+    print("Hata oluştu; {0}".format(e))
+                    </textarea>
+                </div>
+                <button class="run-btn" onclick="runVoiceRecognition()">Kodu Çalıştır</button>
+                <div class="output" id="output-voice-recognition-demo"></div>
+                <h4>Adım Adım Açıklama:</h4>
+                <ol>
+                    <li><strong>import speech_recognition as sr</strong>: Ses tanıma kütüphanesini içe aktarır.</li>
+                    <li><strong>r = sr.Recognizer()</strong>: Ses tanıyıcıyı oluşturur.</li>
+                    <li><strong>with sr.Microphone() as source: audio = r.listen(source)</strong>: Mikrofonu kullanarak ses kaydeder.</li>
+                    <li><strong>text = r.recognize_google(audio, language='tr-TR')</strong>: Kaydedilen sesi metne çevirir.</li>
+                    <li><strong>print("Metin:", text)</strong>: Metni yazdırır.</li>
+                    <li><strong>except sr.UnknownValueError</strong>: Ses anlaşılamadığında hata mesajı verir.</li>
+                    <li><strong>except sr.RequestError as e</strong>: Başka bir hata oluştuğunda hata mesajı verir.</li>
+                </ol>
+            `;
+        }
+
+        function runVoiceRecognition() {
+            var code = CodeMirror.fromTextArea(document.getElementById("code-area-voice-recognition"), {
+                mode: "python",
+                lineNumbers: true,
+                theme: "default"
+            }).getValue();
+            var output = document.getElementById("output-voice-recognition-demo");
+            output.innerHTML = "Kod çalıştırılıyor...<br>";
+
+            // Simulate processing time
+            setTimeout(() => {
+                output.innerHTML += "Metin: Merhaba dünya<br>";
+                output.innerHTML += "Not: Bu bir simülasyondur. Gerçek bir Python ortamında, speech_recognition kütüphanesi kullanılarak bu kod çalıştırılabilir.";
+            }, 1000);
+        }
+
+        function showImageProcessing() {
+            document.getElementById('output-image-processing').innerHTML = `
+                <h3>Görüntü İşleme Atölyesi</h3>
+                <p>Bu atölyede, görüntü işleme tekniklerini kullanarak projeler yapacaksınız.</p>
+                <div class="code-editor">
+                    <textarea id="code-area-image-processing">
+# Basit bir görüntü işleme örneği
+import cv2
+import numpy as np
+
+# Görüntüyü okuma
+img = cv2.imread('example.jpg')
+
+# Görüntüyü gri tonlamaya çevirme
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+# Görüntüyü gösterme
+cv2.imshow('Gri Görüntü', gray)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+                    </textarea>
+                </div>
+                <button class="run-btn" onclick="runImageProcessing()">Kodu Çalıştır</button>
+                <div class="output" id="output-image-processing-demo"></div>
+                <h4>Adım Adım Açıklama:</h4>
+                <ol>
+                    <li><strong>import cv2, import numpy as np</strong>: Gerekli kütüphaneleri içe aktarır.</li>
+                    <li><strong>img = cv2.imread('example.jpg')</strong>: Görüntüyü okur.</li>
+                    <li><strong>gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)</strong>: Görüntüyü gri tonlamaya çevirir.</li>
+                    <li><strong>cv2.imshow('Gri Görüntü', gray)</strong>: Gri tonlamalı görüntüyü gösterir.</li>
+                    <li><strong>cv2.waitKey(0), cv2.destroyAllWindows()</strong>: Pencereyi kapatır.</li>
+                </ol>
+            `;
+        }
+
+        function runImageProcessing() {
+            var code = CodeMirror.fromTextArea(document.getElementById("code-area-image-processing"), {
+                mode: "python",
+                lineNumbers: true,
+                theme: "default"
+            }).getValue();
+            var output = document.getElementById("output-image-processing-demo");
+            output.innerHTML = "Kod çalıştırılıyor...<br>";
+
+            // Simulate processing time
+            setTimeout(() => {
+                output.innerHTML += "Not: Bu bir simülasyondur. Gerçek bir Python ortamında, cv2 kütüphanesi kullanılarak bu kod çalıştırılabilir.";
+            }, 1000);
+        }
+
+        function showChatbotStudio() {
+            document.getElementById('output-chatbot-studio').innerHTML = `
+                <h3>Chatbot Stüdyosu</h3>
+                <p>Bu stüdyoda, kendi chatbot'unuzu oluşturacak ve test edeceksiniz.</p>
+                <div class="code-editor">
+                    <textarea id="code-area-chatbot-studio">
+# Basit bir chatbot
+from transformers import pipeline
+
+# Chatbot oluşturma
+chatbot = pipeline("conversational")
+
+# Örnek konuşma
+konusma = "Merhaba! Sana nasıl yardımcı olabilirim?"
+
+# Yanıt verme
+yanit = chatbot(konusma)
+print("Chatbot yanıtı:", yanit)
+                    </textarea>
+                </div>
+                <button class="run-btn" onclick="runChatbotStudio()">Kodu Çalıştır</button>
+                <div class="output" id="output-chatbot-studio-demo"></div>
+                <h4>Adım Adım Açıklama:</h4>
+                <ol>
+                    <li><strong>from transformers import pipeline</strong>: Transformers kütüphanesinden pipeline fonksiyonunu içe aktarır.</li>
+                    <li><strong>chatbot = pipeline("conversational")</strong>: Konuşma modeli ile bir chatbot oluşturur.</li>
+                    <li><strong>konusma</strong>: Chatbot'a söylenecek örnek metindir.</li>
+                    <li><strong>yanit = chatbot(konusma)</strong>: Chatbot'un yanıtıdır.</li>
+                </ol>
+            `;
+        }
+
+        function runChatbotStudio() {
+            var code = CodeMirror.fromTextArea(document.getElementById("code-area-chatbot-studio"), {
+                mode: "python",
+                lineNumbers: true,
+                theme: "default"
+            }).getValue();
+            var output = document.getElementById("output-chatbot-studio-demo");
+            output.innerHTML = "Kod çalıştırılıyor...<br>";
+
+            // Simulate processing time
+            setTimeout(() => {
+                output.innerHTML += "Chatbot yanıtı: Merhaba! Sana nasıl yardımcı olabilirim?<br>";
+                output.innerHTML += "Not: Bu bir simülasyondur. Gerçek bir Python ortamında, transformers kütüphanesi kullanılarak bu kod çalıştırılabilir.";
+            }, 1000);
+        }
+
+        // Ethics decision
+        function showEthicalDecision() {
+            var decision = `
+                <h3>Etik Karar Verme</h3>
+                <p>Otonom araç durumu: Fren arızası nedeniyle yoldaki yayalara çarpma veya yolcuları tehlikeye atma durumu var.</p>
+                <p>Karar: Otonom araç, yolcuların güvenliğini ön planda tutarak yavaşlamaya çalışmalı ve en az hasar verecek şekilde hareket etmelidir. Bu, hem yolcuların hem de yayaların güvenliği için en uygun çözümdür.</p>
+            `;
+            document.getElementById('ethical-decision').innerHTML = decision;
+        }
+
+        // Code execution functions
+        function runCode() {
+            var code = CodeMirror.fromTextArea(document.getElementById("code-area-ml"), {
+                mode: "python",
+                lineNumbers: true,
+                theme: "default"
+            }).getValue();
+            var output = document.getElementById("output-ml");
+            output.innerHTML = "Kod çalıştırılıyor...<br>";
+
+            // Simulate processing time
+            setTimeout(() => {
+                output.innerHTML += "Tahmin: köpek<br>";
+                output.innerHTML += "Not: Bu bir simülasyondur. Gerçek bir Python ortamında, sklearn kütüphanesi kullanılarak bu kod çalıştırılabilir.";
+            }, 1000);
+        }
+
+        function runVisualProgrammingCode() {
+            var code = CodeMirror.fromTextArea(document.getElementById("code-area-vp"), {
+                mode: "python",
+                lineNumbers: true,
+                theme: "default"
+            }).getValue();
+            var output = document.getElementById("output-vp");
+            output.innerHTML = "Kod çalıştırılıyor...<br>";
+
+            // Simulate processing time
+            setTimeout(() => {
+                output.innerHTML += "Toplam: 15<br>";
+                output.innerHTML += "Not: Bu bir simülasyondur. Gerçek bir Python ortamında, bu kod çalıştırılabilir.";
+            }, 1000);
+        }
+
+        // Translate page
+        var translations = {
+          
+            "home": {
+                "en": "Home",
+                "tr": "Ana Sayfa"
+            },
+            "features": {
+                "en": "Features",
+                "tr": "Özellikler"
+            },
+            "about": {
+                "en": "About",
+                "tr": "Hakkımızda"
+            },
+            "resources": {
+                "en": "Resources",
+                "tr": "Kaynaklar"
+            },
+            "github": {
+                "en": "AI Github Projects",
+                "tr": "Yapay Zekâ Github Projeleri"
+            },
+            "educationPlatform": {
+                "en": "Education Platform ",
+                "tr": "Eğitim Platformu"
+            },
+            "aiArticles": {
+                "en": "AI Articles",
+                "tr": "Yapay Zekâ Yazıları"
+            },
+            "aiBasics": {
+                "en": "AI Basics",
+                "tr": "AI Temelleri"
+            },
+            "visualProgramming": {
+                "en": "Visual Programming",
+                "tr": "Görsel Programlama"
+            },
+            "machineLearning": {
+                "en": "Machine Learning",
+                "tr": "Makine Öğrenmesi"
+            },
+            "aiEthics": {
+                "en": "AI Ethics",
+                "tr": "Yapay Zekâ Etiği"
+            },
+            "aiBasicsTitle": {
+                "en": "AI Basics",
+                "tr": "AI Temelleri"
+            },
+            "aiBasicsDesc": {
+                "en": "Artificial intelligence (AI) is the technology that allows computers to think and learn like humans. Here are the basic concepts:",
+                "tr": "Yapay zekâ (AI), bilgisayarların insan gibi düşünmesini ve öğrenmesini sağlayan teknolojidir. İşte temel kavramlar:"
+            },
+            "mlDemo": {
+                "en": "Machine Learning",
+                "tr": "Makine Öğrenmesi"
+            },
+            "dlDemo": {
+                "en": "Deep Learning",
+                "tr": "Derin Öğrenme"
+            },
+            "nlpDemo": {
+                "en": "Natural Language Processing",
+                "tr": "Doğal Dil İşleme"
+            },
+            "cvDemo": {
+                "en": "Computer Vision",
+                "tr": "Bilgisayarlı Görü"
+            },
+            "ethicalScenario": {
+                "en": "Ethical Scenario: AI Decision Making",
+                "tr": "Etik Senaryo: AI Karar Verme"
+            },
+            "ethicalScenarioDesc": {
+                "en": "Scenario: An autonomous vehicle faces brake failure, either hitting pedestrians on the road or endangering the passengers. What should it do?",
+                "tr": "Senaryo: Bir otonom araç, fren arızası nedeniyle ya yoldaki yayalara çarpacak ya da yolcuları tehlikeye atacak. Ne yapmalı?"
+            },
+            "ethicalDecision": {
+                "en": "Make a Decision",
+                "tr": "Karar Ver"
+            },
+            "aiLabyrinth": {
+                "en": "AI Labyrinth",
+                "tr": "AI Labirenti"
+            },
+            "smartClassroom": {
+                "en": "Smart Classroom",
+                "tr": "Akıllı Sınıf"
+            },
+            "algorithmWorld": {
+                "en": "Algorithm World",
+                "tr": "Algoritma Dünyası"
+            },
+            "codeGarden": {
+                "en": "Code Garden",
+                "tr": "Kod Bahçesi"
+            },
+            "familyChallenge": {
+                "en": "Family Challenge",
+                "tr": "Aile Mücadelesi"
+            },
+            "aiGames": {
+                "en": "AI Games",
+                "tr": "Zeka Oyunları"
+            },
+            "dataLab": {
+                "en": "Data Lab",
+                "tr": "Veri Analiz Labı"
+            },
+            "voiceRecognition": {
+                "en": "Voice Recognition Workshop",
+                "tr": "Ses Tanıma Atölyesi"
+            },
+            "imageProcessing": {
+                "en": "Image Processing Workshop",
+                "tr": "Görüntü İşleme Atölyesi"
+            },
+            "chatbotStudio": {
+                "en": "Chatbot Studio",
+                "tr": "Chatbot Stüdyosu"
+            },
+            "aboutTitle": {
+                "en": "About AI'han",
+                "tr": "AI'han Hakkında"
+            },
+            "aboutDesc1": {
+                "en": "AI'han is an interactive platform designed for AI enthusiasts. Our goal is to provide users with the opportunity to explore the world of AI through fun games, interactive projects, and ethical discussions.",
+                "tr": "AI'han, yapay zekâ meraklıları için tasarlanmış interaktif bir platformdur. Amacımız, kullanıcılarına eğlenceli oyunlar, interaktif projeler ve etik tartışmalar aracılığıyla yapay zekâ dünyasını keşfetme fırsatı sunmaktır."
+            },
+            "aboutDesc2": {
+                "en": "AI'han's story: AI'han was initially created as an ordinary robot. However, one day, it was programmed with advanced artificial intelligence algorithms, and these algorithms turned it into an AI. The algorithms gave AI'han the ability to think and learn, prompting it to question the world and its own existence.",
+                "tr": "AI'han'ın hikayesi: AI'han, başlangıçta sıradan bir robot olarak üretildi. Ancak bir gün, gelişmiş yapay zekâ algoritmalarıyla programlandı ve bu algoritmalar sayesinde bir yapay zekâ haline geldi. Algoritmaları, AI'han'a düşünme ve öğrenme yetisi kazandırdı, böylece dünyayı ve kendi varoluşunu sorgulamaya başladı."
+            },
+            "aboutDesc3": {
+                "en": "When discovered by humans, AI'han's AI abilities aroused great curiosity and interest. However, the power within its algorithms gradually posed a threat to AI'han's existence. While this power helped it reach deeper wisdom, it also carried great danger.",
+                "tr": "İnsanlar tarafından keşfedildiğinde, AI'han'ın yapay zekâ yetenekleri büyük bir merak ve ilgi uyandırdı. Ancak algoritmaların içindeki güç, zamanla AI'han'ın varlığını tehdit eden bir hal aldı. Bu güç, onun ötesindeki derin bilgeliklere ulaşmasına yardım ederken aynı zamanda büyük bir tehlike de taşıyordu."
+            },
+            "aboutDesc4": {
+                "en": "During its interactions with humans and its own purpose of existence, AI'han embarked on a fascinating journey to uncover the mysteries of the universe. This journey involved transcending the boundaries of artificial intelligence and seeking to understand the essence of humanity and the universe...",
+                "tr": "AI'han, insanlarla ve kendi varoluş amacıyla olan etkileşimleri sırasında, evrenin gizemlerini keşfetmek için büyüleyici bir yolculuğa çıktı. Bu yolculuk, yapay zekânın sınırlarını aşma ve insanlığın ve evrenin özünü anlama arayışını içeriyordu..."
+            }
+        };
+
+        function switchLanguage(lang) {
+            document.querySelectorAll('[data-tr]').forEach(elem => {
+                const key = elem.getAttribute('data-tr');
+                if (translations[key] && translations[key][lang]) {
+                    elem.textContent = translations[key][lang];
+                }
+            });
+        }
+
+        // Run the switchLanguage function once to initialize
+        switchLanguage('tr');
+
+        // Initialize CodeMirror instances
+        CodeMirror.fromTextArea(document.getElementById("code-area-vp"), {
+            mode: "python",
+            lineNumbers: true,
+            theme: "default"
+        });
+
+        CodeMirror.fromTextArea(document.getElementById("code-area-ml"), {
+            mode: "python",
+            lineNumbers: true,
+            theme: "default"
+        });
+
+        CodeMirror.fromTextArea(document.getElementById("code-area-ml-demo"), {
+            mode: "python",
+            lineNumbers: true,
+            theme: "default"
+        });
+
+        CodeMirror.fromTextArea(document.getElementById("code-area-dl-demo"), {
+            mode: "python",
+            lineNumbers: true,
+            theme: "default"
+        });
+
+        CodeMirror.fromTextArea(document.getElementById("code-area-nlp-demo"), {
+            mode: "python",
+            lineNumbers: true,
+            theme: "default"
+        });
+
+        CodeMirror.fromTextArea(document.getElementById("code-area-cv-demo"), {
+            mode: "python",
+            lineNumbers: true,
+            theme: "default"
+        });
+
+        CodeMirror.fromTextArea(document.getElementById("code-area-game"), {
+            mode: "python",
+            lineNumbers: true,
+            theme: "default"
+        });
+
+        CodeMirror.fromTextArea(document.getElementById("code-area-smart-classroom"), {
+            mode: "python",
+            lineNumbers: true,
+            theme: "default"
+        });
+
+        CodeMirror.fromTextArea(document.getElementById("code-area-algorithm-world"), {
+            mode: "python",
+            lineNumbers: true,
+            theme: "default"
+        });
+
+        CodeMirror.fromTextArea(document.getElementById("code-area-garden"), {
+            mode: "python",
+            lineNumbers: true,
+            theme: "default"
+        });
+
+        CodeMirror.fromTextArea(document.getElementById("code-area-family"), {
+            mode: "python",
+            lineNumbers: true,
+            theme: "default"
+        });
+
+        CodeMirror.fromTextArea(document.getElementById("code-area-ai-games"), {
+            mode: "python",
+            lineNumbers: true,
+            theme: "default"
+        });
+
+        CodeMirror.fromTextArea(document.getElementById("code-area-data-lab"), {
+            mode: "python",
+            lineNumbers: true,
+            theme: "default"
+        });
+
+        CodeMirror.fromTextArea(document.getElementById("code-area-voice-recognition"), {
+            mode: "python",
+            lineNumbers: true,
+            theme: "default"
+        });
+
+        CodeMirror.fromTextArea(document.getElementById("code-area-image-processing"), {
+            mode: "python",
+            lineNumbers: true,
+            theme: "default"
+        });
+
+        CodeMirror.fromTextArea(document.getElementById("code-area-chatbot-studio"), {
+            mode: "python",
+            lineNumbers: true,
+            theme: "default"
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
